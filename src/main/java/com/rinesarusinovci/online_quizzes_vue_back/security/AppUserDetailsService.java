@@ -1,0 +1,20 @@
+package com.rinesarusinovci.online_quizzes_vue_back.security;
+
+
+import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+@RequiredArgsConstructor
+public class AppUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found with email " + email));
+
+        return new AppUserDetails(user);
+    }
+}

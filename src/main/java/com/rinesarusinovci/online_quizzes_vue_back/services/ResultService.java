@@ -1,0 +1,9 @@
+package com.rinesarusinovci.online_quizzes_vue_back.services;
+
+
+import com.rinesarusinovci.online_quizzes_vue_back.dto.ResultDto;
+
+public interface ResultService extends BaseService<ResultDto,Long>{
+
+}
+

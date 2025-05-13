@@ -1,0 +1,13 @@
+package com.rinesarusinovci.online_quizzes_vue_back;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class OnlineQuizzesVueBackApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(OnlineQuizzesVueBackApplication.class, args);
+    }
+
+}
