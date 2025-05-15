@@ -53,7 +53,6 @@ public class RegisterUserDto {
     private String password;
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "Password should contain at least one uppercase letter, one lowercase letter and one digit")
-
     private String confirmPassword;
 
 
