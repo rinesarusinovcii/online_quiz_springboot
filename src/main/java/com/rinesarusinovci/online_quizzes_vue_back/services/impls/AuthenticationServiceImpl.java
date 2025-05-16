@@ -5,6 +5,7 @@ package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.RegisterUserDto;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
+import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
 import com.rinesarusinovci.online_quizzes_vue_back.services.AuthenticationService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -50,7 +51,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String generateToken(UserDetails userDetails) {
+        AppUserDetails appUserDetails = (AppUserDetails) userDetails;
+        User user = appUserDetails.getUser();
+
         Map<String, Object> claims = new HashMap<>();
+        claims.put("username", user.getUsername());
+        claims.put("firstName", user.getName());
+        claims.put("surname", user.getSurname());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername()) // "sub": email
