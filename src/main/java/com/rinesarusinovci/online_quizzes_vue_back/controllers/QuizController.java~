@@ -40,8 +40,7 @@ public class QuizController {
 
         long loggedUserId = userDetails.getId();
         request.setCreatedBy(loggedUserId);
-        return new ResponseEntity<>(quizService.add(request), HttpStatus.CREATED);
-
+        return ResponseEntity.a(quizService.add(request));
     }
 
 
