@@ -1,7 +1,8 @@
 package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 
-import com.rinesarusinovci.online_quizzes_vue.dto.QuestionDto;
-import com.rinesarusinovci.online_quizzes_vue.services.QuestionService;
+
+import com.rinesarusinovci.online_quizzes_vue_back.dto.QuestionDto;
+import com.rinesarusinovci.online_quizzes_vue_back.services.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

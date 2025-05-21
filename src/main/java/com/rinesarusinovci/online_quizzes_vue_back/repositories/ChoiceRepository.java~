@@ -1,0 +1,4 @@
+package com.rinesarusinovci.online_quizzes_vue_back.repositories;
+
+public interface ChoiceRepository {
+}

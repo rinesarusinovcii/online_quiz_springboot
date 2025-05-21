@@ -3,6 +3,7 @@ package com.rinesarusinovci.online_quizzes_vue_back.entities;
 
 import com.rinesarusinovci.online_quizzes_vue_back.enums.QuestionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -36,9 +37,10 @@ public class Question {
 
 
 
-    @Column(name = "choice", nullable = false)
-    private List<String> choices;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Choice> choices;
 
-    @Column(nullable = false)
-    private boolean correct;
+
+
+
 }

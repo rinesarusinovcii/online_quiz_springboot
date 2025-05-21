@@ -35,7 +35,7 @@ public class QuestionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionDto> create(@Valid@RequestBody QuestionDto request){
-        return ResponseEntity.ok(questionService.add(request));
+        return new ResponseEntity<>(questionService.add(request), HttpStatus.CREATED);
     }
 
 

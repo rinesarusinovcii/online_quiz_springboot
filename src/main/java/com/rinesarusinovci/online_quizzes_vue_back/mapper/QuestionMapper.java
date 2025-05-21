@@ -17,10 +17,12 @@ public interface QuestionMapper extends BaseMapper<Question, QuestionDto> {
 
     @Override
     @Mapping(source = "quiz.id", target = "quizId")
+
     QuestionDto toDto(Question question);
 
     @Override
     @Mapping(source = "quizId", target = "quiz.id")
+
     Question toEntity(QuestionDto questionDto);
 
     @Override

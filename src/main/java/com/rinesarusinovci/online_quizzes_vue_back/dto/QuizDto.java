@@ -38,6 +38,7 @@ public class QuizDto {
     @Positive(message = "Time limit must be a positive number")
     private int timeLimit;
 
+    //private String createdBy;
     private long createdBy;
     private List<Long> questions;
 //    private long report;
