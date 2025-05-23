@@ -1,7 +1,4 @@
 package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
-
-
-
 import com.rinesarusinovci.online_quizzes_vue_back.dto.ChoiceDto;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
 import com.rinesarusinovci.online_quizzes_vue_back.mapper.ChoiceMapper;
@@ -41,16 +38,24 @@ public class ChoiceServiceImpl implements ChoiceService {
 
     @Override
     public ChoiceDto modify(Long id, ChoiceDto model) {
-        if (model.getId() == null || !id.equals(model.getId())) {
-            throw new IllegalArgumentException("Id does not match");
+        if (!id.equals(model.getId())) {
+            throw new IllegalArgumentException("ID nuk përputhet");
         }
 
+        var existing = choiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Choice me id " + id + " nuk u gjet"));
 
-        if (!choiceRepository.existsById(id)) {
-            throw new EntityNotFoundException("Choice with id " + id + " not found");
+        // Përditëso vetëm fushat e nevojshme
+        existing.setText(model.getText());
+        existing.setCorrect(model.isCorrect());
+
+        if (model.getQuestionId() != null) {
+            Question question = questionRepository.findById(model.getQuestionId())
+                    .orElseThrow(() -> new EntityNotFoundException("Question nuk u gjet"));
+            existing.setQuestion(question);
         }
 
-        return save(model);
+        return choiceMapper.toDto(choiceRepository.save(existing));
     }
 
     @Override
@@ -65,12 +70,15 @@ public class ChoiceServiceImpl implements ChoiceService {
     private ChoiceDto save(ChoiceDto model) {
         var entity = choiceMapper.toEntity(model);
 
-        // Merr pyetjen nëse modeli ka questionId (duhet shtuar në DTO nëse nuk është)
         if (model.getQuestionId() != null) {
             Question question = questionRepository.findById(model.getQuestionId())
                     .orElseThrow(() -> new EntityNotFoundException("Question with id " + model.getQuestionId() + " not found"));
             entity.setQuestion(question);
         }
+
+
+
+
 
         var saved = choiceRepository.save(entity);
         return choiceMapper.toDto(saved);

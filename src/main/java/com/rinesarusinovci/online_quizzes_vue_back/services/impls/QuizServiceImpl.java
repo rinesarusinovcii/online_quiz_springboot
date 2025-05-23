@@ -4,11 +4,15 @@ package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizDto;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Quiz;
+import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
 import com.rinesarusinovci.online_quizzes_vue_back.mapper.QuizMapper;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuestionRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuizRepository;
+import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
 import com.rinesarusinovci.online_quizzes_vue_back.services.QuizService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,10 +43,22 @@ public class QuizServiceImpl implements QuizService {
     public QuizDto modify(Long id, QuizDto quizDto) {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Quiz not found"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-
-         quizRepository.save(quiz);
-          return quizMapper.toDto(quiz);
+        if (auth != null && auth.getPrincipal() instanceof AppUserDetails) {
+            AppUserDetails userDetails = (AppUserDetails) auth.getPrincipal();
+            User currentUser = userDetails.getUser();
+            quiz.setTitle(quizDto.getTitle());
+            quiz.setDescription(quizDto.getDescription());
+            quiz.setCategory(quizDto.getCategory());
+            quiz.setTimeLimit(quizDto.getTimeLimit());
+            quiz.setCreatedAt(quizDto.getCreatedAt());
+            quiz.setCreatedBy(currentUser);
+            quizRepository.save(quiz);
+            return quizMapper.toDto(quiz);
+        } else {
+            throw new RuntimeException("User not authenticated");
+        }
     }
 
 

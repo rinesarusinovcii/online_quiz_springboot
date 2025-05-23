@@ -40,10 +40,9 @@ public class QuestionController {
 
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> update(@PathVariable long id,@Valid @RequestBody QuestionDto request) {
-        questionService.modify(id, request);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<QuestionDto> update(@PathVariable long id, @Valid @RequestBody QuestionDto request) {
+        QuestionDto updatedQuestion = questionService.modify(id, request);
+        return ResponseEntity.ok(updatedQuestion);
     }
 
     @DeleteMapping("/{id}")

@@ -33,10 +33,8 @@ public class ChoiceController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody ChoiceDto request) {
-        choiceService.modify(id, request);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ChoiceDto> update(@PathVariable Long id, @Valid @RequestBody ChoiceDto request) {
+        return ResponseEntity.ok(choiceService.modify(id, request));
     }
 
     @DeleteMapping("/{id}")

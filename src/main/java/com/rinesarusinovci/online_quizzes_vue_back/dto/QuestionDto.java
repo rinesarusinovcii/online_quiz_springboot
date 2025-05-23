@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionDto {
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Question is required")
     @Size(min = 10, max = 2000, message = "Question must be between 10 and 2000 characters")
