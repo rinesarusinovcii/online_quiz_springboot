@@ -46,10 +46,9 @@ public class QuizController {
 
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody QuizDto request) {
-        quizService.modify(id, request);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<QuizDto> update(@PathVariable long id, @RequestBody QuizDto request) {
+        QuizDto update =quizService.modify(id, request);
+        return ResponseEntity.ok(update);
     }
 
     @DeleteMapping("/{id}")

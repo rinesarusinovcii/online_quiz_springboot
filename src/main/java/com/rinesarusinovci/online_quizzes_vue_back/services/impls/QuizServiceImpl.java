@@ -6,6 +6,7 @@ import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Quiz;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
 import com.rinesarusinovci.online_quizzes_vue_back.mapper.QuizMapper;
+import com.rinesarusinovci.online_quizzes_vue_back.repositories.ChoiceRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuestionRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuizRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
@@ -23,6 +24,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizMapper quizMapper;
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
+
 
     @Override
     public List<QuizDto> findAll() {
@@ -79,4 +81,9 @@ public class QuizServiceImpl implements QuizService {
         var savedQuiz = quizRepository.save(quizEntity);
         return quizMapper.toDto(savedQuiz);
     }
+
+
+
+
+
 }

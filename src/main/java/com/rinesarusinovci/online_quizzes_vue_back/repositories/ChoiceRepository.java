@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ChoiceRepository extends JpaRepository<Choice, Long> {
 
     Optional<Choice> findByCorrect(boolean correct);
+
+    Choice findCorrectChoiceByQuestionId(Long questionId);
 }

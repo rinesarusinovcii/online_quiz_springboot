@@ -40,7 +40,7 @@ public class QuizDto {
 
 //    private String createdBy;
     private long createdBy;
-    private List<Long> questions;
+    private List<QuestionDto> questions;
 //    private long report;
 //    private List<Long> results;
 }
