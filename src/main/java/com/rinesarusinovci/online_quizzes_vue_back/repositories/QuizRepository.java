@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
+    List<Quiz> findByCreatedById(Long userId);
 
 
 

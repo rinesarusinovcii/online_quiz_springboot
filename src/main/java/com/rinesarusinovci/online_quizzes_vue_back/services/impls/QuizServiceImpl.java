@@ -1,7 +1,10 @@
 package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 
 
+import com.rinesarusinovci.online_quizzes_vue_back.dto.QuestionDto;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizDto;
+import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizResultDto;
+import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizSubmissionDto;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Quiz;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
@@ -17,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +68,6 @@ public class QuizServiceImpl implements QuizService {
     }
 
 
-
     @Override
     public void removeById(Long aLong) {
         List<Question> questions = questionRepository.findByQuizId(aLong);
@@ -82,8 +85,45 @@ public class QuizServiceImpl implements QuizService {
         return quizMapper.toDto(savedQuiz);
     }
 
+    @Override
+    public QuizResultDto evaluateSubmission(Long quizId, QuizSubmissionDto submission) {
+        // Merr kuizin nga databaza
+        QuizDto quiz = findById(quizId);
 
+        int totalQuestions = quiz.getQuestions().size();
+        int correctAnswers = 0;
 
+        for (QuestionDto question : quiz.getQuestions()) {
+            String submittedChoiceStr = submission.getAnswers().get(question.getId().toString());
 
+            if (submittedChoiceStr == null) {
+                continue; // Skip if no answer submitted for this question
+            }
 
+            try {
+                Long submittedChoiceId = Long.parseLong(submittedChoiceStr);
+
+                boolean isCorrect = question.getChoices().stream()
+                        .anyMatch(choice -> choice.getId().equals(submittedChoiceId) && choice.isCorrect());
+
+                if (isCorrect) {
+                    correctAnswers++;
+                }
+            } catch (NumberFormatException e) {
+                // Nëse vlera nuk është numër valid, e kalojmë këtë pyetje
+                continue;
+            }
+        }
+
+        return new QuizResultDto(totalQuestions, correctAnswers);
+    }
+
+    @Override
+    public List<QuizDto> getQuizzesByUserId(Long userId) {
+        List<Quiz> quizzes = quizRepository.findByCreatedById(userId);
+        return quizzes.stream()
+                .map(quizMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
+

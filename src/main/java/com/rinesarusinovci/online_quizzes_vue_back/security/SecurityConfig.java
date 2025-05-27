@@ -1,7 +1,5 @@
 package com.rinesarusinovci.online_quizzes_vue_back.security;
 
-
-
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

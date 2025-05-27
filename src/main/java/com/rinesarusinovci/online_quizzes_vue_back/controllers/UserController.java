@@ -14,16 +14,17 @@ public class UserController {
 
 
     @GetMapping
-    @PreAuthorize("hasAuthority('admin:read')")
+    @PreAuthorize("hasAuthority('user:read')")
     public String get() {
-        return "GET: admin controller";
+        return "GET: user controller";
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('admin:write')")
+    @PreAuthorize("hasAuthority('user:write')")
     public String post() {
-        return "POST: admin controller";
+        return "POST: user controller";
     }
+
 
 
 
