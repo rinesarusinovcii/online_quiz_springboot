@@ -39,7 +39,7 @@ public class QuizDto {
     private int timeLimit;
 
 //    private String createdBy;
-    private long createdBy;
+    private Long createdBy;
     private List<QuestionDto> questions;
 //    private long report;
 //    private List<Long> results;

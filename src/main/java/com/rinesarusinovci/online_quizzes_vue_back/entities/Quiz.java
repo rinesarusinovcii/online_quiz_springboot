@@ -55,6 +55,9 @@
         @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
         private List<Question> questions;
 
+        @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @Column(nullable = false)
+        private List<Result> results;
 
 
 

@@ -38,6 +38,11 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+                        // admin-only endpoints
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+
+                        // user endpoints
+                        .requestMatchers("/api/v1/user/**").hasRole("USER")
 
                         // Protected endpoints
                         .anyRequest().authenticated()

@@ -29,6 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody  RegisterUserDto request) {
+        System.out.println(request.getRole());
         authenticationService.register(request);
         return ResponseEntity.ok("User registered successfully");
     }

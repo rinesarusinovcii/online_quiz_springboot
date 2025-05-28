@@ -41,40 +41,40 @@ public interface QuizMapper extends BaseMapper<Quiz, QuizDto> {
 
     List<QuizDto> toDtos(List<Quiz> quizzes);
 
-    default List<Long> mapQuestionsToIds(List<Question> questions) {
-        if (questions == null) return null;
-        return questions.stream()
-                .map(Question::getId)
-                .toList();
-    }
-
-    default List<Question> mapIdsToQuestions(List<Long> ids) {
-        if (ids == null) return null;
-        return ids.stream()
-                .map(id -> {
-                    Question question = new Question();
-                    question.setId(id);
-                    return question;
-                })
-                .toList();
-    }
-
-    default List<Long> mapResultsToIds(List<Result> results) {
-        if (results == null) return null;
-        return results.stream()
-                .map(Result::getId)
-                .toList();
-    }
-
-    default List<Result> mapIdsToResults(List<Long> ids) {
-        if (ids == null) return null;
-        return ids.stream()
-                .map(id -> {
-                    Result result = new Result();
-                    result.setId(id);
-                    return result;
-                })
-                .toList();
-    }
+//    default List<Long> mapQuestionsToIds(List<Question> questions) {
+//        if (questions == null) return null;
+//        return questions.stream()
+//                .map(Question::getId)
+//                .toList();
+//    }
+//
+//    default List<Question> mapIdsToQuestions(List<Long> ids) {
+//        if (ids == null) return null;
+//        return ids.stream()
+//                .map(id -> {
+//                    Question question = new Question();
+//                    question.setId(id);
+//                    return question;
+//                })
+//                .toList();
+//    }
+//
+//    default List<Long> mapResultsToIds(List<Result> results) {
+//        if (results == null) return null;
+//        return results.stream()
+//                .map(Result::getId)
+//                .toList();
+//    }
+//
+//    default List<Result> mapIdsToResults(List<Long> ids) {
+//        if (ids == null) return null;
+//        return ids.stream()
+//                .map(id -> {
+//                    Result result = new Result();
+//                    result.setId(id);
+//                    return result;
+//                })
+//                .toList();
+//    }
 
 }

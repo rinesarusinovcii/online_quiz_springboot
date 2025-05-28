@@ -2,6 +2,7 @@ package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 
 
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuestionDto;
+import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
 import com.rinesarusinovci.online_quizzes_vue_back.mapper.QuestionMapper;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuestionRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuizRepository;
@@ -70,6 +71,11 @@ public class QuestionServiceImpl implements QuestionService {
         // Ruaj pyetjen
         var savedQuestion = questionRepository.save(questionEntity);
         return questionMapper.toDto(savedQuestion);
+    }
+
+    @Override
+    public List<Question> findByQuizId(Long quizId) {
+        return questionRepository.findByQuizId(quizId);
     }
 
 }

@@ -37,5 +37,8 @@ public class AppUserDetails implements UserDetails {
     public String getName() {
         return user.getName();
     }
+    public User getUser() {
+        return user;
+    }
 }
 

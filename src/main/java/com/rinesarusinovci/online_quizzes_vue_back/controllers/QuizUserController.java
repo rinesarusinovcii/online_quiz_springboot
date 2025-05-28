@@ -3,10 +3,14 @@ package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizDto;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizResultDto;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.QuizSubmissionDto;
+import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
 import com.rinesarusinovci.online_quizzes_vue_back.services.QuizService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +25,16 @@ public class QuizUserController {
 
 
 
-    @GetMapping("/all")
-    @PreAuthorize("hasAuthority('user:read')")
-    public ResponseEntity<List<QuizDto>> getAllQuizzes() {
 
+
+    @GetMapping("/available")
+    @PreAuthorize("hasAuthority('user:read')")
+    public ResponseEntity<List<QuizDto>> getAvailableQuizzes() {
         return ResponseEntity.ok(quizService.findAll());
     }
+
+
+
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:read')")
@@ -44,9 +52,10 @@ public class QuizUserController {
         return ResponseEntity.ok(result);
     }
 
-//    @GetMapping("/user/{userId}")
-//    public ResponseEntity<List<QuizDto>> getQuizzesByUserId(@PathVariable Long userId) {
-//        List<QuizDto> userQuizzes = quizService.getQuizzesByUserId(userId);
-//        return ResponseEntity.ok(userQuizzes);
-//    }
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAuthority('user:read')")
+    public ResponseEntity<List<QuizDto>> getQuizzesByUserId(@PathVariable Long userId) {
+        List<QuizDto> userQuizzes = quizService.getQuizzesByUserId(userId);
+        return ResponseEntity.ok(userQuizzes);
+    }
 }

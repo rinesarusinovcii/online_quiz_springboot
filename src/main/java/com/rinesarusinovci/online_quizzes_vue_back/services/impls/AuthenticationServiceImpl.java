@@ -55,9 +55,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = appUserDetails.getUser();
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", user.getUsername());
-        claims.put("firstName", user.getName());
-        claims.put("surname", user.getSurname());
+        claims.put("authorities", userDetails.getAuthorities());
+        claims.put("id", ((AppUserDetails) userDetails).getUser().getId());
+        claims.put("name", ((AppUserDetails) userDetails).getUser().getName());
+        claims.put("role", ((AppUserDetails) userDetails).getUser().getRole().name());
+
+
+
+
+//        claims.put("username", user.getUsername());
+//        claims.put("firstName", user.getName());
+//        claims.put("surname", user.getSurname());
+//        claims.put("role", user.getRole().name());
+
+
+
 
         return Jwts.builder()
                 .setClaims(claims)

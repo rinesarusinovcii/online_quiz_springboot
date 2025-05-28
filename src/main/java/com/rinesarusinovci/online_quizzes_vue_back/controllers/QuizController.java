@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/quizzes")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class QuizController {
     private final QuizService quizService;
 
@@ -40,10 +39,9 @@ public class QuizController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
 
-        long loggedUserId = userDetails.getId();
+        long loggedUserId = userDetails.getUser().getId();
         request.setCreatedBy(loggedUserId);
         return new ResponseEntity<>(quizService.add(request), HttpStatus.CREATED);
-
     }
 
 

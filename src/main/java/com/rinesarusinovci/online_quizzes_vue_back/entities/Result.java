@@ -13,13 +13,14 @@ import lombok.*;
 @Table(name = "results")
 @Builder
 public class Result {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private Quiz quiz;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quiz_id", nullable = false)
+    private Quiz quiz;
 
     @Column(nullable = false)
     @NotNull

@@ -126,4 +126,3 @@ public class QuizServiceImpl implements QuizService {
                 .collect(Collectors.toList());
     }
 }
-
