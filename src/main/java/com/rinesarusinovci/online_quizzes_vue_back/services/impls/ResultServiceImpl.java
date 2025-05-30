@@ -1,11 +1,13 @@
 package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 
 import com.rinesarusinovci.online_quizzes_vue_back.dto.ResultDto;
-import com.rinesarusinovci.online_quizzes_vue_back.entities.Quiz;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.Question;
+import com.rinesarusinovci.online_quizzes_vue_back.entities.Quiz;
+import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
 import com.rinesarusinovci.online_quizzes_vue_back.mapper.ResultMapper;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.QuizRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.ResultRepository;
+import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.services.ResultService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,12 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ResultServiceImpl implements ResultService {
-
     private final ResultMapper resultMapper;
     private final ResultRepository resultRepository;
-    private final QuizRepository quizRepository; // Shto kete
+    private final QuizRepository quizRepository;
+    private final UserRepository userRepository;
 
-    private final double passingScore = 50.0;
+    private final double passingScore = 30;
 
     @Override
     public List<ResultDto> findAll() {
@@ -60,12 +62,12 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public ResultDto saveCalculatedResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId) {
-        ResultDto result = calculateResult(questions, userAnswers, quizId);
+    public ResultDto saveCalculatedResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId,Long userId) {
+        ResultDto result = calculateResult(questions, userAnswers, quizId,userId);
         return add(result);
     }
 
-    public ResultDto calculateResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId) {
+    public ResultDto calculateResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId,Long userId) {
         double score = 0;
         int correctAnswers = 0;
         int wrongAnswers = 0;
@@ -91,18 +93,36 @@ public class ResultServiceImpl implements ResultService {
 
         boolean isPassed = score >= passingScore;
 
-        return new ResultDto(0, quizId, score, correctAnswers, wrongAnswers, isPassed);
+        ResultDto result = new ResultDto();
+        result.setScore(score);
+        result.setCorrectAnswers(correctAnswers);
+        result.setWrongAnswers(wrongAnswers);
+        result.setPassed(isPassed);
+        result.setQuizId(quizId);
+        result.setUserId(userId);
+
+
+        return result;
     }
 
     private ResultDto save(ResultDto model) {
-        // Ngarko quiz-in nga DB:
+        if (model.getUserId() == null) {
+            throw new IllegalArgumentException("Username must not be null or empty");
+        }
+        System.out.println("Saving result for user: " + model.getUserId() + " quizId: " + model.getQuizId());
         Quiz quiz = quizRepository.findById(model.getQuizId())
                 .orElseThrow(() -> new EntityNotFoundException("Quiz with id " + model.getQuizId() + " not found"));
 
+        User user = userRepository.findById(model.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
         var resultEntity = resultMapper.toEntity(model);
-        resultEntity.setQuiz(quiz);  // lidhe quiz me result
+        resultEntity.setQuiz(quiz);
+        resultEntity.setUser(user);
 
         var savedResult = resultRepository.save(resultEntity);
         return resultMapper.toDto(savedResult);
     }
+
+
 }

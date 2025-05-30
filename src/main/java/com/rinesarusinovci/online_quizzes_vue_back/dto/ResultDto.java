@@ -26,4 +26,6 @@ public class ResultDto {
 
     @NotNull
     private boolean isPassed;
+
+     private Long userId;
 }

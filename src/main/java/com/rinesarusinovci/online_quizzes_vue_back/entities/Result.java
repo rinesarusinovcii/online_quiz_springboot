@@ -40,4 +40,8 @@ public class Result {
     @Column(nullable = false)
     @NotNull
     private boolean isPassed;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

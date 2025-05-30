@@ -61,6 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         claims.put("name", ((AppUserDetails) userDetails).getUser().getName());
         claims.put("surname", ((AppUserDetails) userDetails).getUser().getSurname());
         claims.put("role", ((AppUserDetails) userDetails).getUser().getRole().name());
+        claims.put("username", ((AppUserDetails) userDetails).getUser().getUsername());
 
 
 

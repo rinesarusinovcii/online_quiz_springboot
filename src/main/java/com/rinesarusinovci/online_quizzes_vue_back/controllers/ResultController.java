@@ -41,13 +41,13 @@ public class ResultController {
     @PostMapping("/calculate/{quizId}")
     public ResponseEntity<ResultDto> calculateAndSaveResult(
             @PathVariable Long quizId,
-            @RequestBody Map<Long, Long> userAnswers) {
+            @RequestBody Map<Long, Long> userAnswers,Long userId) {
 
         // Marrim pyetjet sipas quizId nga QuestionService
         List<Question> questions = questionService.findByQuizId(quizId);
 
         // Llogarisim dhe ruajmë rezultatin
-        ResultDto resultDto = resultService.saveCalculatedResult(questions, userAnswers, quizId);
+        ResultDto resultDto = resultService.saveCalculatedResult(questions, userAnswers, quizId,userId);
 
         return ResponseEntity.ok(resultDto);
     }

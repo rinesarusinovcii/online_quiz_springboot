@@ -1,8 +1,0 @@
-ALTER TABLE results
-    ADD quiz_id BIGINT;
-
-ALTER TABLE results
-    ALTER COLUMN quiz_id SET NOT NULL;
-
-ALTER TABLE results
-    ADD CONSTRAINT FK_RESULTS_ON_QUIZ FOREIGN KEY (quiz_id) REFERENCES quizzes (id);

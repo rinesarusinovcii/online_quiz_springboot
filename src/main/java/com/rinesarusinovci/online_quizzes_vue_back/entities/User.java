@@ -69,6 +69,8 @@ public class User {
     @OneToMany(mappedBy = "createdBy")
     private List<Quiz> quizzes;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Result> results;
 
 
 
