@@ -1,3 +1,4 @@
+
 package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 
 
@@ -35,5 +36,3 @@ public class AuthController {
     }
 
 }
-
-

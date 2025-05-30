@@ -1,3 +1,4 @@
+
 package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 
 
@@ -58,6 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         claims.put("authorities", userDetails.getAuthorities());
         claims.put("id", ((AppUserDetails) userDetails).getUser().getId());
         claims.put("name", ((AppUserDetails) userDetails).getUser().getName());
+        claims.put("surname", ((AppUserDetails) userDetails).getUser().getSurname());
         claims.put("role", ((AppUserDetails) userDetails).getUser().getRole().name());
 
 

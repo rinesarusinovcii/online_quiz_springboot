@@ -23,6 +23,7 @@ public class ResultController {
 
     @GetMapping
     public ResponseEntity<List<ResultDto>> getAllResults() {
+
         return ResponseEntity.ok(resultService.findAll());
     }
 

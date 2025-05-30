@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionDto {
+public class    QuestionDto {
     private Long id;
 
     @NotBlank(message = "Question is required")

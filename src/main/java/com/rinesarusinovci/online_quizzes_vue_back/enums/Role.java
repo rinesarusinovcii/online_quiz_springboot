@@ -13,8 +13,8 @@ import static com.rinesarusinovci.online_quizzes_vue_back.enums.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {
-    ADMIN(Set.of(ADMIN_READ, ADMIN_WRITE, MANAGER_READ, MANAGER_WRITE)),
-    MANAGER(Set.of(MANAGER_READ, MANAGER_WRITE)),
+    ADMIN(Set.of(ADMIN_READ, ADMIN_WRITE)),
+
     USER(Collections.emptySet());
 
     @Getter

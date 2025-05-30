@@ -14,4 +14,7 @@ public interface AuthenticationService {
 
 
     UserDetails validateToken(String token);
+//    UserDetails updateProfile(String email, RegisterUserDto updatedUserDto);
+//    void deleteUser(String email);
+
 }
