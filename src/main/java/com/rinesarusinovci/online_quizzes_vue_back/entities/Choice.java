@@ -16,25 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name = "choices")
 public class Choice {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @PositiveOrZero(message = "Id must be a positive number")
-//    private long id;
-//
-//    @Column(nullable = false,length = 2000)
-//    @NotNull(message = "Text is required")
-//    @NotBlank(message = "Text is required")
-//    @Size(min = 10, max = 2000, message = "Text must be between 10 and 2000 characters")
-//    private String text;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "question_id", nullable = false)
-//    private Question question;
-//
-//    @Column(nullable = false)
-//    @NotNull(message = "Is correct is required")
-//    @NotBlank(message = "Is correct is required")
-//    private boolean correct;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +25,10 @@ public class Choice {
     @Column(nullable = false)
     @NotNull(message = "Text is required")
    @NotBlank(message = "Text is required")
-   @Size(min = 10, max = 2000, message = "Text must be between 10 and 2000 characters")
+   @Size(min = 2, max = 100, message = "Text must be between 10 and 2000 characters")
     private String text;
 
     @Column(nullable = false)
-
     private boolean correct;
 
     @ManyToOne

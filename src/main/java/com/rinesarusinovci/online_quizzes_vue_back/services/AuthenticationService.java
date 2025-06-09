@@ -5,7 +5,7 @@ import com.rinesarusinovci.online_quizzes_vue_back.dto.RegisterUserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface AuthenticationService {
-    UserDetails authenticate(String email, String password);
+    UserDetails login(String email, String password);
 
     String generateToken(UserDetails userDetails);
 

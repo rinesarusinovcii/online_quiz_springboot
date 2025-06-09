@@ -2,10 +2,10 @@
 package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 
 
+import com.rinesarusinovci.online_quizzes_vue_back.dto.AuthResponse;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.LoginDto;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.RegisterUserDto;
 import com.rinesarusinovci.online_quizzes_vue_back.services.AuthenticationService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginDto request) {
-        var user = authenticationService.authenticate(request.getEmail(), request.getPassword());
+        var user = authenticationService.login(request.getEmail(), request.getPassword());
         var token = authenticationService.generateToken(user);
 
         var authResponse = new AuthResponse(token, 86400L);
@@ -30,7 +30,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody  RegisterUserDto request) {
-        System.out.println(request.getRole());
         authenticationService.register(request);
         return ResponseEntity.ok("User registered successfully");
     }

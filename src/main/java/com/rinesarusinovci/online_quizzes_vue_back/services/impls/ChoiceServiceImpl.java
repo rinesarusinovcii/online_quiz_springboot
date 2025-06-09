@@ -76,10 +76,6 @@ public class ChoiceServiceImpl implements ChoiceService {
             entity.setQuestion(question);
         }
 
-
-
-
-
         var saved = choiceRepository.save(entity);
         return choiceMapper.toDto(saved);
     }

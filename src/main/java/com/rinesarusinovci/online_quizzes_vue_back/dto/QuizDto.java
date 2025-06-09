@@ -16,7 +16,7 @@ public class QuizDto {
 
     @NotNull(message = "Title is required")
     @NotBlank(message = "Title is required")
-    @Size(min = 10, max = 50, message = "Title must be between 10 and 50 characters")
+    @Size(min = 5, max = 50, message = "Title must be between 10 and 50 characters")
     private String title;
 
     @Size(min = 10, max = 1000, message = "Description must be between 10 and 1000 characters")
@@ -24,7 +24,7 @@ public class QuizDto {
 
     @NotNull(message = "Category is required")
     @NotBlank(message = "Category is required")
-    @Size(min = 5, max = 20, message = "Category must be between 5 and 20 characters")
+    @Size(min = 3, max = 20, message = "Category must be between 5 and 20 characters")
     private String category;
 
 
@@ -38,9 +38,7 @@ public class QuizDto {
     @Positive(message = "Time limit must be a positive number")
     private int timeLimit;
 
-//    private String createdBy;
     private Long createdBy;
     private List<QuestionDto> questions;
-//    private long report;
-//    private List<Long> results;
+
 }

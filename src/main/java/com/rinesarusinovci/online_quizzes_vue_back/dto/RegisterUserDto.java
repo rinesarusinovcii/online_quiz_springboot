@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RegisterUserDto {
 
-    @Size(min = 4, max = 50, message = "Username should be between 3 and 50 characters")
+    @Size(min = 5, max = 50, message = "Username should be between 3 and 50 characters")
     @NotBlank(message = "Username should not be empty or blank")
     @NotNull(message = "Username is required")
     private String username;
@@ -30,7 +30,7 @@ public class RegisterUserDto {
     @Contains(value = "@", message = "Email should contain @ symbol")
     private String email;
 
-    @Size(min = 2, max = 25, message = "Name should be between 3 and 50 characters")
+    @Size(min = 4, max = 25, message = "Name should be between 3 and 50 characters")
     @NotBlank(message = "Name should not be empty or blank")
     @NotNull(message = "Name is required")
     private String name;
@@ -56,12 +56,5 @@ public class RegisterUserDto {
     private String confirmPassword;
 
 
-//    @Size(min = 8, max = 50, message = "Password should be between 6 and 100 characters")
-//    @NotBlank(message = "Password should not be empty or blank")
-//    @NotNull(message = "Password is required")
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "Password should contain at least one uppercase letter, one lowercase letter and one digit")
-//    private String confirmPassword;
 
-//    @AssertTrue(message = "You must accept the terms and conditions")
-//    private boolean acceptTerms;
 }

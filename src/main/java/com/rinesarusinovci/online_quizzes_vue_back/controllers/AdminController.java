@@ -24,24 +24,7 @@ public class  AdminController {
         return ResponseEntity.ok(quizService.findAll());
     }
 
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('admin:write')")
-//    public ResponseEntity<QuizDto> createQuiz(@RequestBody QuizDto quizDto) {
-//        return ResponseEntity.status(201).body(quizService.add(quizDto));
-//    }
-//
-//    @PutMapping("/{id}")
-//    @PreAuthorize("hasAuthority('admin:update')")
-//    public ResponseEntity<QuizDto> updateQuiz(@PathVariable Long id, @RequestBody QuizDto quizDto) {
-//        return ResponseEntity.ok(quizService.modify(id, quizDto));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAuthority('admin:delete')")
-//    public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
-//        quizService.removeById(id);
-//        return ResponseEntity.noContent().build();
-//    }
+
 
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('admin:read')")

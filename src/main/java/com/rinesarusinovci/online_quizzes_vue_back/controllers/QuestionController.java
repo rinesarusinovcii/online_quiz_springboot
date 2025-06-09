@@ -20,7 +20,6 @@ public class QuestionController {
 
 
 
-
     @GetMapping
     public ResponseEntity<List<QuestionDto>> findAll(){
 

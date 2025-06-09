@@ -36,13 +36,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${jwt.secret}") // merre vleren prej applicaiton.properties
+    @Value("${jwt.secret}")
     private String secretKey;
 
-    private final Long expireTimeInMs = 86400000L; // expire time in milliseconds = 24 hours
+    private final Long expireTimeInMs = 86400000L; // 1 day
 
     @Override
-    public UserDetails authenticate(String email, String password) {
+    public UserDetails login(String email, String password) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
@@ -62,16 +62,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         claims.put("surname", ((AppUserDetails) userDetails).getUser().getSurname());
         claims.put("role", ((AppUserDetails) userDetails).getUser().getRole().name());
         claims.put("username", ((AppUserDetails) userDetails).getUser().getUsername());
-
-
-
-
-//        claims.put("username", user.getUsername());
-//        claims.put("firstName", user.getName());
-//        claims.put("surname", user.getSurname());
-//        claims.put("role", user.getRole().name());
-
-
 
 
         return Jwts.builder()
@@ -95,7 +85,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
 
-        // Krijo user-in e ri
+
         User newUser = new User();
         newUser.setName(registerDto.getName());
         newUser.setSurname(registerDto.getSurname());
@@ -134,7 +124,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserDetails validateToken(String token) {
         String email = extractEmail(token);
-//        String email = extractAllClaims().getSubject();
+
         return userDetailsService.loadUserByUsername(email);
     }
 }

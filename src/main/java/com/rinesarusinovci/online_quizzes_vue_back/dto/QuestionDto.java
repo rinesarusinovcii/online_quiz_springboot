@@ -20,7 +20,7 @@ public class    QuestionDto {
     private Long id;
 
     @NotBlank(message = "Question is required")
-    @Size(min = 10, max = 2000, message = "Question must be between 10 and 2000 characters")
+    @Size(min = 5, max = 2000, message = "Question must be between 10 and 2000 characters")
     private String text;
 
     @NotNull(message = "Question type is required")

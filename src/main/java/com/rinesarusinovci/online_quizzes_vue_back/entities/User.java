@@ -1,7 +1,4 @@
 package com.rinesarusinovci.online_quizzes_vue_back.entities;
-
-
-
 import com.rinesarusinovci.online_quizzes_vue_back.enums.Role;
 import com.rinesarusinovci.online_quizzes_vue_back.infrastructure.AgeBetween;
 import com.rinesarusinovci.online_quizzes_vue_back.infrastructure.Contains;

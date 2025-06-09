@@ -17,13 +17,12 @@
     public class Quiz {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @PositiveOrZero(message = "Id must be a positive number")
         private long id;
 
         @Column(nullable = false, length = 50)
         @NotNull(message = "Title is required")
         @NotBlank(message = "Title is required")
-        @Size(min = 10, max = 50, message = "Title must be between 10 and 50 characters")
+        @Size(min = 5, max = 50, message = "Title must be between 10 and 50 characters")
         private String title;
 
         @Column(length = 1000)
@@ -33,7 +32,7 @@
         @Column(nullable = false, length = 20)
         @NotNull(message = "Category is required")
         @NotBlank(message = "Category is required")
-        @Size(min = 5, max = 20, message = "Category must be between 5 and 20 characters")
+        @Size(min = 3, max = 20, message = "Category must be between 5 and 20 characters")
         private String category;
 
 
@@ -61,12 +60,7 @@
 
 
 
-//        @OneToOne(cascade = CascadeType.ALL)
-//        @JoinColumn(name = "report_id", referencedColumnName = "id")
-//        private Report report;
-//
-//        @OneToMany(mappedBy = "quiz")
-//        private List<Result> results;
+
 
 
 

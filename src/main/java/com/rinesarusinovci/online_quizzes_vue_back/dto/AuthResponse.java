@@ -1,4 +1,4 @@
-package com.rinesarusinovci.online_quizzes_vue_back.controllers;
+package com.rinesarusinovci.online_quizzes_vue_back.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
