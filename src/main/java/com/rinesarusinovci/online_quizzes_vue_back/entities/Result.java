@@ -37,11 +37,15 @@ public class Result {
     @PositiveOrZero(message = "Wrong answers must be a positive number")
     private int wrongAnswers;
 
-    @Column(nullable = false)
-    @NotNull
-    private boolean isPassed;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(nullable = false)
+    @NotNull
+    private Boolean passed;
+
+
 }

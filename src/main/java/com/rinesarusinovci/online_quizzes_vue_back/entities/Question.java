@@ -24,7 +24,7 @@ public class Question {
     @Column(nullable = false, length = 2000)
     private String text;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuestionType questionType;
 

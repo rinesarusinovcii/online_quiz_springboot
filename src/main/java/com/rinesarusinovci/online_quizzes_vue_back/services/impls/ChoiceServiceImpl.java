@@ -74,10 +74,21 @@ public class ChoiceServiceImpl implements ChoiceService {
             Question question = questionRepository.findById(model.getQuestionId())
                     .orElseThrow(() -> new EntityNotFoundException("Question with id " + model.getQuestionId() + " not found"));
             entity.setQuestion(question);
+
+
+            if (question.getQuestionType() != null && question.getQuestionType().name().equals("TRUE_FALSE") && model.isCorrect()) {
+                long correctChoices = choiceRepository.countByQuestionIdAndCorrectTrue(model.getQuestionId());
+                if (correctChoices >= 1) {
+                    throw new IllegalArgumentException("For True/False questions, only one correct answer is allowed.");
+                }
+            }
         }
 
         var saved = choiceRepository.save(entity);
         return choiceMapper.toDto(saved);
     }
+
+
+
 }
 

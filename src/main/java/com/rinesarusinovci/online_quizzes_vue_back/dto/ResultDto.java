@@ -1,5 +1,6 @@
 package com.rinesarusinovci.online_quizzes_vue_back.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class ResultDto {
     private int wrongAnswers;
 
     @NotNull
-    private boolean isPassed;
+    private Boolean passed;
 
      private Long userId;
 }

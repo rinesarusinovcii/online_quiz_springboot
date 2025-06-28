@@ -24,7 +24,7 @@ public class ResultServiceImpl implements ResultService {
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
 
-    private final double passingScore = 30;
+    private final double passingScore = 50;
 
     @Override
     public List<ResultDto> findAll() {
@@ -64,7 +64,9 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public ResultDto saveCalculatedResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId,Long userId) {
         ResultDto result = calculateResult(questions, userAnswers, quizId,userId);
+        System.out.println(result);
         return add(result);
+
     }
 
     public ResultDto calculateResult(List<Question> questions, Map<Long, Long> userAnswers, Long quizId,Long userId) {
@@ -93,6 +95,8 @@ public class ResultServiceImpl implements ResultService {
 
         boolean isPassed = score >= passingScore;
 
+
+
         ResultDto result = new ResultDto();
         result.setScore(score);
         result.setCorrectAnswers(correctAnswers);
@@ -110,6 +114,7 @@ public class ResultServiceImpl implements ResultService {
             throw new IllegalArgumentException("Username must not be null or empty");
         }
         System.out.println("Saving result for user: " + model.getUserId() + " quizId: " + model.getQuizId());
+        System.out.println("Saving result: isPassed = " + model.getPassed());
         Quiz quiz = quizRepository.findById(model.getQuizId())
                 .orElseThrow(() -> new EntityNotFoundException("Quiz with id " + model.getQuizId() + " not found"));
 

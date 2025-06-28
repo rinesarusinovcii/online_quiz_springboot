@@ -27,6 +27,7 @@ public interface ResultMapper extends BaseMapper<Result, ResultDto> {
 //    @Mapping(source = "quizId", target = "quiz.id")
     @Mapping(target = "quiz", ignore = true)
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "passed", source = "passed")
     Result toEntity(ResultDto resultDto);
 
     @Override
