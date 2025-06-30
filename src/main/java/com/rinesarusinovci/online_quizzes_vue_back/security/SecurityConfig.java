@@ -38,6 +38,9 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/auth/update").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/auth/change-password").authenticated()
+
                         // admin-only endpoints
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 

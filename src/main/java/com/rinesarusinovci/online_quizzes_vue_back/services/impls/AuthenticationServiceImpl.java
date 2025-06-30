@@ -3,7 +3,9 @@ package com.rinesarusinovci.online_quizzes_vue_back.services.impls;
 
 
 
+import com.rinesarusinovci.online_quizzes_vue_back.dto.ChangePasswordDto;
 import com.rinesarusinovci.online_quizzes_vue_back.dto.RegisterUserDto;
+import com.rinesarusinovci.online_quizzes_vue_back.dto.UpdateUserDto;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
 import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
@@ -103,6 +105,55 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
         return userDetailsService.loadUserByUsername(email);
+    }
+
+    @Override
+    public User updateProfile(UpdateUserDto dto, AppUserDetails userDetails) {
+        User user = userDetails.getUser();
+
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setUsername(dto.getUsername());
+        user.setBirthdate(dto.getBirthdate());
+        user.setEmail(dto.getEmail());
+
+        return userRepository.save(user);
+    }
+    @Override
+    public void deleteUser(Long userId) {
+        if (userRepository.findById(userId).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public String refreshToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+        claims.put("username", user.getUsername());
+        claims.put("role", user.getRole().name());
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expireTimeInMs))
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+    @Override
+    public User changePassword(ChangePasswordDto dto, AppUserDetails userDetails) {
+        User user = userDetails.getUser();
+
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fjalëkalimi i vjetër nuk është i saktë");
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.save(user);
     }
 
     private Key getSecretKey() {

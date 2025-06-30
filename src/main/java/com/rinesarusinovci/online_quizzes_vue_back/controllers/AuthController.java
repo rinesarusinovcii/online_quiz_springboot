@@ -2,22 +2,25 @@
 package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 
 
-import com.rinesarusinovci.online_quizzes_vue_back.dto.AuthResponse;
-import com.rinesarusinovci.online_quizzes_vue_back.dto.LoginDto;
-import com.rinesarusinovci.online_quizzes_vue_back.dto.RegisterUserDto;
+import com.rinesarusinovci.online_quizzes_vue_back.dto.*;
+import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
+import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
 import com.rinesarusinovci.online_quizzes_vue_back.services.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationService authenticationService;
+    private final UserDetailsService userDetailsService;
+
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginDto request) {
@@ -32,6 +35,28 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody  RegisterUserDto request) {
         authenticationService.register(request);
         return ResponseEntity.ok("User registered successfully");
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<AuthResponse> updateProfile(@RequestBody @Valid UpdateUserDto dto,
+                                                      @AuthenticationPrincipal AppUserDetails userDetails) {
+        User updatedUser = authenticationService.updateProfile(dto, userDetails);
+        UserDetails updatedDetails = userDetailsService.loadUserByUsername(updatedUser.getEmail());
+
+        String newToken = authenticationService.generateToken(updatedDetails);
+        return ResponseEntity.ok(new AuthResponse(newToken, 86400L));
+    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAccount(@AuthenticationPrincipal AppUserDetails userDetails) {
+        authenticationService.deleteUser(userDetails.getUser().getId());
+        return ResponseEntity.ok("Account deleted successfully");
+    }
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody @Valid ChangePasswordDto dto,
+                                                 @AuthenticationPrincipal AppUserDetails userDetails) {
+        authenticationService.changePassword(dto, userDetails);
+        return ResponseEntity.ok("Password changed successfully");
     }
 
 }
