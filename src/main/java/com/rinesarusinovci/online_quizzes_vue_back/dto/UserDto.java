@@ -1,25 +1,21 @@
 package com.rinesarusinovci.online_quizzes_vue_back.dto;
-
-
-
 import com.rinesarusinovci.online_quizzes_vue_back.enums.Role;
 import com.rinesarusinovci.online_quizzes_vue_back.infrastructure.AgeBetween;
 import com.rinesarusinovci.online_quizzes_vue_back.infrastructure.Contains;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class UserDto {
     private Long id;
 
@@ -51,7 +47,7 @@ public class UserDto {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    private String imagePath;
 
 
 }

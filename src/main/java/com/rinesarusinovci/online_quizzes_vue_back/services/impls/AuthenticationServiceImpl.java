@@ -135,6 +135,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         claims.put("surname", user.getSurname());
         claims.put("username", user.getUsername());
         claims.put("role", user.getRole().name());
+        claims.put("imagePath", user.getImagePath());
 
         return Jwts.builder()
                 .setClaims(claims)

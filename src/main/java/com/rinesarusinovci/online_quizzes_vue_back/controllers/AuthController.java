@@ -4,6 +4,7 @@ package com.rinesarusinovci.online_quizzes_vue_back.controllers;
 
 import com.rinesarusinovci.online_quizzes_vue_back.dto.*;
 import com.rinesarusinovci.online_quizzes_vue_back.entities.User;
+import com.rinesarusinovci.online_quizzes_vue_back.repositories.UserRepository;
 import com.rinesarusinovci.online_quizzes_vue_back.security.AppUserDetails;
 import com.rinesarusinovci.online_quizzes_vue_back.services.AuthenticationService;
 import jakarta.validation.Valid;
@@ -13,6 +14,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -20,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthenticationService authenticationService;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
 
     @PostMapping("/login")
@@ -57,6 +66,31 @@ public class AuthController {
                                                  @AuthenticationPrincipal AppUserDetails userDetails) {
         authenticationService.changePassword(dto, userDetails);
         return ResponseEntity.ok("Password changed successfully");
+    }
+    @PostMapping("/upload-profile-picture")
+    public ResponseEntity<String> uploadProfilePicture(@RequestParam("image") MultipartFile image,
+                                                       @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
+        User user = userDetails.getUser();
+        String filename = UUID.randomUUID() + "_" + image.getOriginalFilename();
+        Path path = Paths.get("uploads/profile-images");
+
+        if (!Files.exists(path)) {
+            Files.createDirectories(path);
+        }
+
+        Path imagePath = path.resolve(filename);
+        Files.write(imagePath, image.getBytes());
+
+        user.setImagePath("/images/profile/" + filename);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(user.getImagePath());
+    }
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getCurrentUser(@AuthenticationPrincipal AppUserDetails userDetails) {
+        User user = userDetails.getUser();
+        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getSurname(), user.getBirthdate(), user.getUsername(), user.getEmail(), user.getRole(), user.getImagePath());
+        return ResponseEntity.ok(userDto);
     }
 
 }

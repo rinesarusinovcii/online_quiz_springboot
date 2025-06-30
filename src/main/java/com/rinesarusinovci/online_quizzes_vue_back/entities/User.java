@@ -69,6 +69,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Result> results;
 
-
+    @Column(name = "image_path")
+    private String imagePath;
 
 }
